@@ -6,8 +6,9 @@ from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from sentence_transformers import SentenceTransformer
 
+
 class SentenceTransformerEmbedding:
-    def __init__(self, model_name='all-MiniLM-L6-v2'):
+    def __init__(self, model_name="all-MiniLM-L6-v2"):
         self.model = SentenceTransformer(model_name)
 
     def embed_documents(self, texts):
@@ -15,7 +16,8 @@ class SentenceTransformerEmbedding:
 
     def embed_query(self, text):
         return self.model.encode([text])[0]
-    
+
+
 def get_retriever():
     urls = [
         "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/",
@@ -27,7 +29,7 @@ def get_retriever():
     )
     doc_splits = text_splitter.split_documents(docs_list)
 
-    embedding_function = SentenceTransformerEmbedding('all-MiniLM-L6-v2')
+    embedding_function = SentenceTransformerEmbedding("all-MiniLM-L6-v2")
 
     vectorstore = SKLearnVectorStore.from_documents(
         documents=doc_splits,
@@ -35,6 +37,7 @@ def get_retriever():
     )
     retriever = vectorstore.as_retriever(k=4)
     return retriever
+
 
 def get_rag_chain():
     prompt = PromptTemplate(
